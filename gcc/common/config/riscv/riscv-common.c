@@ -200,7 +200,7 @@ riscv_subset_list::lookup (const char *subset, int major_version,
 static const char *
 riscv_supported_std_ext (void)
 {
-  return "mafdqlcbjtpvn";
+  return "mafdqlkcbjtpvn";
 }
 
 /* Parsing subset version.
@@ -570,6 +570,10 @@ riscv_parse_arch_string (const char *isa, int *flags, location_t loc)
 
   if (subset_list->lookup ("d"))
     *flags |= MASK_DOUBLE_FLOAT;
+
+  *flags &= ~MASK_QUANTUM;
+  if (subset_list->lookup ("k"))
+    *flags |= MASK_QUANTUM;
 
   *flags &= ~MASK_RVC;
   if (subset_list->lookup ("c"))
